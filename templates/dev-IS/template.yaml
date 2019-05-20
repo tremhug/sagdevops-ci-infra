@@ -1,5 +1,5 @@
-alias: sag-deployer
-description: Software AG Deployer
+alias: dev_IS
+description: Software AG IS with WMTestSuite
 
 environments:
   default:
@@ -7,12 +7,12 @@ environments:
     repo.fix:      ${}
     is.license.key.alias: ${}
 
-    deployer.node: local
-    deployer.host: localhost
-    deployer.instance.name: deployer
-    deployer.primary.port: 8094
-    deployer.diagnostic.port: 8095
-    deployer.fixes:
+    dev.node: local
+    dev.host: localhost
+    dev.instance.name: deployer
+    dev.primary.port: 5555
+    dev.diagnostic.port: 9999
+    dev.fixes:
       - wMFix.integrationServer.Core
 
 layers:
@@ -20,32 +20,38 @@ layers:
     productRepo: ${repo.product}            # install products from
     fixRepo:     ${repo.fix}                # install fixes from
     templates:
-      - deployer
+      - dev
 
 templates:
   deployer:
     licenses:
       "IntegrationServer/config/licenseKey.xml": ${is.license.key.alias}
-    fixes: ${deployer.fixes}
+    fixes: ${dev.fixes}
     products:
       GWM_IS:   # Unit Test Framework
-      Deployer:
       integrationServer:
-        ${deployer.instance.name}:
-          primary.port: ${deployer.primary.port}
-          diagnostic.port: ${deployer.diagnostic.port}
-          package.list: WmDeployer,WmNUMDeployer,WmBrokerDeployer,WmAgileAppsDeployer,WmServiceMock
+        ${dev.instance.name}:
+          primary.port: ${dev.primary.port}
+          diagnostic.port: ${dev.diagnostic.port}
+          package.list: WmServiceMock
           license.file: IntegrationServer/config/licenseKey.xml
+          configuration:
+            OSGI-IS_${instance.name}:
+              COMMON-MEMORY:
+                COMMON-MEMORY:
+                  InitSize: 256
+                  MaxSize: 512
+
 
 provision:
   default:
-    deployer: ${deployer.node}
+    dev: ${dev.node}
 
 nodes:
   default:
     default:
-      port: 8092
+      port: 8192
       secure: false
 
     "${deployer.node}":
-      host: ${deployer.host}
+      host: ${dev.host}
