@@ -3,15 +3,15 @@ description: Software AG Deployer
 
 environments:
   default:  
-    repo.product:  ${}
-    repo.fix:      ${}
+    repo.product: product_10.3 
+    repo.fix: product_fixes_repo     
     is.license.key.alias: ${}
 
-    deployer.node: local
+    deployer.node: build-server 
     deployer.host: localhost
     deployer.instance.name: deployer
-    deployer.primary.port: 8094
-    deployer.diagnostic.port: 8095
+    deployer.primary.port: 5556 
+    deployer.diagnostic.port: 9992 
     deployer.fixes:
       - wMFix.integrationServer.Core
 
@@ -44,7 +44,7 @@ provision:
 nodes:
   default:
     default:
-      port: 8092
+      port: 8292
       secure: false
 
     "${deployer.node}":

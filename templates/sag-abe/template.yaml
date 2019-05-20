@@ -3,12 +3,12 @@ description: Software AG Asset Build Environment
 
 environments:
   default:  
-    repo.product:  ${}
-    repo.fix:      ${}
+    repo.product: product_10.3 
+    repo.fix: product_fixes_repo 
 
     abe.fixes: []
 
-    abe.node: local
+    abe.node: build-server
     abe.host: localhost
 
 layers:
@@ -31,7 +31,7 @@ provision:
 nodes:
   default:
     default:
-      port: 8092
+      port: 8292
       secure: false
 
     "${abe.node}":
