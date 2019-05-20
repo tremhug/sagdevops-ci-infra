@@ -26,6 +26,12 @@
                         <param name="t" value="templates/dev-IS"/>
                 </antcall>
         </target>
+        <target name="testIS" depends="waitcc" description="Provision test IS" >
+                <antcall target="apply">
+                        <param name="t" value="templates/test-server"/>
+                </antcall>
+        </target>
+
 	<target name="artifactory" depends="waitcc" description="Provision Artifactory" >
 		<property name="artifactory.download.url" value="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.1.0.zip" />
 
