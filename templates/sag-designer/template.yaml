@@ -9,7 +9,7 @@ environments:
     testsuite.license.key.alias: ${}
 
     designer.fixes: []
-    designer.node: local
+    designer.node: local-dev
     designer.host: localhost
 
 layers:
@@ -37,7 +37,7 @@ provision:
 nodes:
   default:
     default:
-      port: 8092
+      port: 8192
       secure: false
 
     "${designer.node}":
