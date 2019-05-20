@@ -1,4 +1,4 @@
-alias: dev_IS
+alias: dev-IS 
 description: Software AG IS with WMTestSuite
 
 environments:
@@ -6,33 +6,36 @@ environments:
     repo.product:  ${}
     repo.fix:      ${}
     is.license.key.alias: ${}
-
-    dev.node: local
-    dev.host: localhost
-    dev.instance.name: deployer
-    dev.primary.port: 5555
-    dev.diagnostic.port: 9999
-    dev.fixes:
+    is.instance.name: default
+    is.node: local-dev
+    is.host: localhost
+    is.primary.port: 5555
+    is.diagnostic.port: 9999
+    is.jmx.port: 8094
+    is.memory.init: 128
+    is.memory.max: 256
+    is.install.service: false
+    is.fixes: 
       - wMFix.integrationServer.Core
 
 layers:
-  deployer:
+  runtime:
     productRepo: ${repo.product}            # install products from
     fixRepo:     ${repo.fix}                # install fixes from
     templates:
-      - dev
+      - is-server
 
 templates:
-  deployer:
-    licenses:
+  is-server:
+    licenses: 
       "IntegrationServer/config/licenseKey.xml": ${is.license.key.alias}
-    fixes: ${dev.fixes}
+    fixes: ${is.fixes}
     products:
       GWM_IS:   # Unit Test Framework
       integrationServer:
-        ${dev.instance.name}:
-          primary.port: ${dev.primary.port}
-          diagnostic.port: ${dev.diagnostic.port}
+        ${is.instance.name}:
+          primary.port: ${is.primary.port}
+          diagnostic.port: ${is.diagnostic.port}
           package.list: WmServiceMock
           license.file: IntegrationServer/config/licenseKey.xml
           configuration:
@@ -45,7 +48,7 @@ templates:
 
 provision:
   default:
-    dev: ${dev.node}
+    runtime: local-dev 
 
 nodes:
   default:
@@ -53,5 +56,6 @@ nodes:
       port: 8192
       secure: false
 
-    "${deployer.node}":
-      host: ${dev.host}
+    "${is.node}":
+      host: ${is.host}
+
